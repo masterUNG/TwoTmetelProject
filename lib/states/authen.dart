@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:twofmetelproject/states/main_home.dart';
+import 'package:twofmetelproject/utility/app_constant.dart';
 import 'package:twofmetelproject/utility/app_controller.dart';
 import 'package:twofmetelproject/widgets/widget_button.dart';
 import 'package:twofmetelproject/widgets/widget_form.dart';
@@ -81,6 +83,11 @@ class _AuthenState extends State<Authen> {
 
                           if (keyForm.currentState!.validate()) {
                             
+                            //กระบวนการเช็ค Login
+
+                            Get.offAll(MainHome(apiKey: AppConstant.testAPIkey,));
+
+
                           }
 
 
