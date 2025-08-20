@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:twofmetelproject/states/main_home.dart';
 import 'package:twofmetelproject/utility/app_constant.dart';
 import 'package:twofmetelproject/utility/app_controller.dart';
@@ -21,6 +22,9 @@ class _AuthenState extends State<Authen> {
   //Globle Key สำหรับการ ส่อง Form
   final keyForm = GlobalKey<FormState>();
 
+  TextEditingController userController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +41,7 @@ class _AuthenState extends State<Authen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      WidgetForm(
+                      WidgetForm(controller: userController,
                         hintText: 'User :',
                         suffixIcon: Icon(Icons.person),
                         validator: (String? string) {
@@ -51,7 +55,7 @@ class _AuthenState extends State<Authen> {
                       SizedBox(height: 16),
 
                       Obx(() {
-                        return WidgetForm(
+                        return WidgetForm(controller: passwordController,
                           hintText: 'Password :',
                           obscureText: appController.redEye.value,
                           suffixIcon: WidgetIconButton(
@@ -78,14 +82,33 @@ class _AuthenState extends State<Authen> {
 
                       SizedBox(
                         width: Get.width * 0.75,
-                        child: WidgetButton(label: 'Login', onPressed: () {
+                        child: WidgetButton(label: 'Login', onPressed: ()async {
 
 
                           if (keyForm.currentState!.validate()) {
                             
                             //กระบวนการเช็ค Login
 
-                            Get.offAll(MainHome(apiKey: AppConstant.testAPIkey,));
+                            //สมมุติว่าสำเร็จ
+
+                            Map<String, dynamic> data = {};
+                            data['user'] = userController.text;
+                            data['password'] = passwordController.text;
+                            data['apiKey'] = AppConstant.testAPIkey;
+
+                            debugPrint('## data ====> $data');
+
+                            await GetStorage().write('user', data).then((value) {
+
+                               Get.offAll(MainHome(apiKey: AppConstant.testAPIkey,));
+                              
+                            },);
+
+
+
+                           
+
+                            
 
 
                           }

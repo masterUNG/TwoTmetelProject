@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "936483393668",
+    "project_id": "twofmetelung",
+    "storage_bucket": "twofmetelung.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:936483393668:android:fa9927cfe79319e15eb2d1",
+        "android_client_info": {
+          "package_name": "com.masterung.twofmetelproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4fUVRI71mdg-6eudlsQyF9P6H1TmiXA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
