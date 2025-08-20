@@ -12,7 +12,20 @@
           "package_name": "com.masterung.twofmetelproject"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "936483393668-ecfbm38d2bfdsv19q67ng4qaljjqn7kr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.masterung.twofmetelproject",
+            "certificate_hash": "827c66b0c94cda1c72928149ba6f618599c2652d"
+          }
+        },
+        {
+          "client_id": "936483393668-hffu0e565gtftcouarri9p31lsqnoagd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB4fUVRI71mdg-6eudlsQyF9P6H1TmiXA8"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "936483393668-hffu0e565gtftcouarri9p31lsqnoagd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "936483393668-e6el3voskpgj1o796jvdn9km220cvlms.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.masterung.twofmetelproject"
+              }
+            }
+          ]
         }
       }
     }

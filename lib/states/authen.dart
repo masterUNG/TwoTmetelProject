@@ -1,6 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 import 'package:twofmetelproject/states/main_home.dart';
 import 'package:twofmetelproject/utility/app_constant.dart';
 import 'package:twofmetelproject/utility/app_controller.dart';
@@ -41,7 +44,8 @@ class _AuthenState extends State<Authen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      WidgetForm(controller: userController,
+                      WidgetForm(
+                        controller: userController,
                         hintText: 'User :',
                         suffixIcon: Icon(Icons.person),
                         validator: (String? string) {
@@ -55,7 +59,8 @@ class _AuthenState extends State<Authen> {
                       SizedBox(height: 16),
 
                       Obx(() {
-                        return WidgetForm(controller: passwordController,
+                        return WidgetForm(
+                          controller: passwordController,
                           hintText: 'Password :',
                           obscureText: appController.redEye.value,
                           suffixIcon: WidgetIconButton(
@@ -82,44 +87,59 @@ class _AuthenState extends State<Authen> {
 
                       SizedBox(
                         width: Get.width * 0.75,
-                        child: WidgetButton(label: 'Login', onPressed: ()async {
+                        child: WidgetButton(
+                          label: 'Login',
+                          onPressed: () async {
+                            if (keyForm.currentState!.validate()) {
+                              //กระบวนการเช็ค Login
 
+                              //สมมุติว่าสำเร็จ
 
-                          if (keyForm.currentState!.validate()) {
-                            
-                            //กระบวนการเช็ค Login
+                              Map<String, dynamic> data = {};
+                              data['user'] = userController.text;
+                              data['password'] = passwordController.text;
+                              data['apiKey'] = AppConstant.testAPIkey;
 
-                            //สมมุติว่าสำเร็จ
+                              debugPrint('## data ====> $data');
 
-                            Map<String, dynamic> data = {};
-                            data['user'] = userController.text;
-                            data['password'] = passwordController.text;
-                            data['apiKey'] = AppConstant.testAPIkey;
-
-                            debugPrint('## data ====> $data');
-
-                            await GetStorage().write('user', data).then((value) {
-
-                               Get.offAll(MainHome(apiKey: AppConstant.testAPIkey,));
-                              
-                            },);
-
-
-
-                           
-
-                            
-
-
-                          }
-
-
-
-                        }),
+                              await GetStorage().write('user', data).then((
+                                value,
+                              ) {
+                                Get.offAll(
+                                  MainHome(apiKey: AppConstant.testAPIkey),
+                                );
+                              });
+                            }
+                          },
+                        ),
                       ),
                     ],
                   ),
                 ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16),
+          Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SignInButton(
+                Buttons.google,
+                onPressed: () async {
+                  GoogleSignInAccount? googleSignInAccount = await GoogleSignIn()
+                      .signIn();
+                  GoogleSignInAuthentication googleSignInAuthentication =
+                      await googleSignInAccount!.authentication;
+                  OAuthCredential oAuthCredential = GoogleAuthProvider.credential(
+                    idToken: googleSignInAuthentication.idToken,
+                    accessToken: googleSignInAuthentication.accessToken,
+                  );
+              
+                  await FirebaseAuth.instance
+                      .signInWithCredential(oAuthCredential)
+                      .then((value) {
+                        Get.offAll(MainHome());
+                      });
+                },
               ),
             ],
           ),

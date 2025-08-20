@@ -4,10 +4,13 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:twofmetelproject/states/show_message.dart';
+import 'package:twofmetelproject/states/show_webview.dart';
 import 'package:twofmetelproject/utility/app_controller.dart';
 import 'package:twofmetelproject/utility/app_service.dart';
 import 'package:twofmetelproject/widgets/body_category.dart';
 import 'package:twofmetelproject/widgets/body_profile.dart';
+import 'package:twofmetelproject/widgets/widget_button.dart';
+import 'package:upgrader/upgrader.dart';
 
 class MainHome extends StatefulWidget {
   const MainHome({Key? key, this.apiKey}) : super(key: key);
@@ -72,38 +75,25 @@ class _MainHomeState extends State<MainHome> {
   }
 
   Future<void> activeAfterReceiveMessage() async {
-
-   
-
-
     //Open App
     FirebaseMessaging.onMessage.listen((event) {
-      
       String? title = event.notification!.title;
       String? body = event.notification!.body;
 
       String? catCode = body!.split('#').last;
 
-
-
       Get.snackbar(title!, 'ส่งข้อความให้ กลุ่ม $catCode');
 
       Get.to(ShowMessage(title: title, message: body));
+    });
 
-    },);
-
-
-   //Off App
+    //Off App
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-
       String? title = event.notification!.title;
       String? body = event.notification!.body;
 
       Get.snackbar(title!, body!);
-      
-    },);
-
-
+    });
   }
 
   void createItem() {
@@ -117,16 +107,23 @@ class _MainHomeState extends State<MainHome> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Scaffold(
-        appBar: AppBar(title: Text(titles[appController.indexBody.value])),
-        body: bodys[appController.indexBody.value],
-        bottomNavigationBar: BottomNavigationBar(
-          items: items,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: appController.indexBody.value,
-          onTap: (value) {
-            appController.indexBody.value = value;
-          },
+      return UpgradeAlert(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(titles[appController.indexBody.value]),
+            actions: [WidgetButton(label: 'Promotion', onPressed: () {
+              Get.to(ShowWebview());
+            }), SizedBox(width: 16)],
+          ),
+          body: bodys[appController.indexBody.value],
+          bottomNavigationBar: BottomNavigationBar(
+            items: items,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: appController.indexBody.value,
+            onTap: (value) {
+              appController.indexBody.value = value;
+            },
+          ),
         ),
       );
     });
